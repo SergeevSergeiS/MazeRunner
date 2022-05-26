@@ -1,4 +1,5 @@
 package ru.internet.sergeevss90.maze;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ public class Solver {
     private final String[][] solvedGrid;
     private final Cell[][] createdCells;
     private static final String PATH = "//";
+
     public Solver(Maze maze) {
         this.maze = maze;
         height = maze.getHeight();

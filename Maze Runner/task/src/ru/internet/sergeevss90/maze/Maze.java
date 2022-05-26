@@ -1,4 +1,5 @@
 package ru.internet.sergeevss90.maze;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -19,6 +20,7 @@ public class Maze {
     private Cell[][] cellGrid;
     private static final String FREE = "  ";
     private static final String WALL = "\u2588\u2588";
+
     public Maze(int size) {
         this(size, size);
     }
@@ -35,7 +37,7 @@ public class Maze {
         StringBuilder mazeString = new StringBuilder();
         try (BufferedReader readMaze = new BufferedReader(existingMaze)) {
             String line = readMaze.readLine();
-            qtdColumns = line.length()/2;
+            qtdColumns = line.length() / 2;
             qtdLines = 0;
             while (line != null) {
                 qtdLines++;
@@ -51,14 +53,14 @@ public class Maze {
         this.height = height;
         this.width = width;
         mazeGrid = new String[height][width];
-        this.heightCell = (height - 1)/2;
-        this.widthCell = (width - 1)/2;
+        this.heightCell = (height - 1) / 2;
+        this.widthCell = (width - 1) / 2;
     }
 
     private void initCells() {
         cellGrid = new Cell[heightCell][widthCell];
-        for(int i = 0; i < heightCell; i++) {
-            for(int j = 0; j < widthCell; j++) {
+        for (int i = 0; i < heightCell; i++) {
+            for (int j = 0; j < widthCell; j++) {
                 cellGrid[i][j] = new Cell(i, j, false);
             }
         }
@@ -67,6 +69,7 @@ public class Maze {
     private void generateMaze() {
         generateMaze(random.nextInt(heightCell));
     }
+
     private void generateMaze(int startX) {
         Cell startCell = cellGrid[startX][0];
         startCell.setVisited(true);
@@ -82,7 +85,7 @@ public class Maze {
                     getCell(cell.getX(), cell.getY() - 1)
             ));
             neighbours.removeIf(n -> (n == null || n.isVisited() || n.isWall()));
-            if(!neighbours.isEmpty()) {
+            if (!neighbours.isEmpty()) {
                 Cell selected = neighbours.get(random.nextInt(neighbours.size()));
                 cell.addNeighbor(selected);
                 selected.setVisited(true);
@@ -94,8 +97,8 @@ public class Maze {
     }
 
     public void draw() {
-        for (String[] line: mazeGrid) {
-            for (String symbol: line) {
+        for (String[] line : mazeGrid) {
+            for (String symbol : line) {
                 System.out.print(symbol);
             }
             System.out.println();
@@ -115,8 +118,8 @@ public class Maze {
         for (int i = 0; i < heightCell; i++) {
             for (int j = 0; j < widthCell; j++) {
                 Cell selected = cellGrid[i][j];
-                int mazeI = 2*i + 1;
-                int mazeJ = 2*j + 1;
+                int mazeI = 2 * i + 1;
+                int mazeJ = 2 * j + 1;
                 mazeGrid[mazeI][mazeJ] = FREE;
                 if (selected.hasRigthCellNeighbor()) {
                     mazeGrid[mazeI][mazeJ + 1] = FREE;
@@ -156,14 +159,14 @@ public class Maze {
 
     private void insertEntranceAndExit() {
         int randomEntrance = random.nextInt(cellGrid.length);
-        mazeGrid[2*randomEntrance + 1][0] = FREE;
+        mazeGrid[2 * randomEntrance + 1][0] = FREE;
         int randomExit = random.nextInt(cellGrid.length);
         while (randomExit == randomEntrance) {
             randomExit = random.nextInt(cellGrid.length);
         }
-        mazeGrid[2*randomExit + 1][mazeGrid[0].length - 1] = FREE;
+        mazeGrid[2 * randomExit + 1][mazeGrid[0].length - 1] = FREE;
         if (width % 2 == 0) {
-            mazeGrid[2*randomExit + 1][mazeGrid[0].length - 2] = FREE;
+            mazeGrid[2 * randomExit + 1][mazeGrid[0].length - 2] = FREE;
         }
     }
 
@@ -171,14 +174,14 @@ public class Maze {
         if (height % 2 == 0) {
             for (int i = 0; i < heightCell; i++) {
                 if (random.nextInt(2) == 1) {
-                    mazeGrid[2*i + 1][mazeGrid[0].length - 2] = FREE;
+                    mazeGrid[2 * i + 1][mazeGrid[0].length - 2] = FREE;
                 }
             }
         }
         if (width % 2 == 0) {
             for (int j = 0; j < widthCell; j++) {
                 if (random.nextInt(2) == 1) {
-                    mazeGrid[mazeGrid.length - 2][2*j + 1] = FREE;
+                    mazeGrid[mazeGrid.length - 2][2 * j + 1] = FREE;
                 }
             }
         }

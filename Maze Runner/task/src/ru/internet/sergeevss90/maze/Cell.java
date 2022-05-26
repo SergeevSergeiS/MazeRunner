@@ -21,10 +21,10 @@ public class Cell {
     }
 
     public void addNeighbor(Cell otherCell) {
-        if(!neighbors.contains(otherCell)) {
+        if (!neighbors.contains(otherCell)) {
             neighbors.add(otherCell);
         }
-        if(!otherCell.neighbors.contains(this)) {
+        if (!otherCell.neighbors.contains(this)) {
             otherCell.neighbors.add(this);
         }
     }
